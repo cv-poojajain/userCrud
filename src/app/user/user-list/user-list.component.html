@@ -1,0 +1,110 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 mb-4 mt-4">
+      <h1 class="d-inline-block">User list</h1>
+      <button class="btn btn-success float-end mt-2" (click)="createUser(mymodal)"><b>+ </b>Add User</button>
+      </div>
+      <div class="col-md-12">
+          <div class="people-nearby">
+            <div class="nearby-user" *ngFor="let u of userList">
+              <div class="row" >
+                <div class="col-md-2 col-sm-2">
+                  <img src="{{u.profPic}}" alt="user" class="profile-photo-lg">
+                </div>
+                <div class="col-md-7 col-sm-7">
+                  <h5>{{u.userName}}</h5>
+                  <p>{{u.address}}</p>
+                  <p><b>{{u.email}} | {{u.mobNo}}</b></p>
+                </div>
+                <div class="col-md-3 col-sm-3 d-flex align-items-center justify-content-end">
+                  <button class="btn btn-primary me-2" (click)="editUser(u, mymodal)">Edit</button>
+                  <button class="btn btn-danger pull-right" (click)="deleteUser(u.id)">Delete</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+    </div>
+</div>
+</div>
+
+<ng-template #mymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" *ngIf="isAdd">Create New User</h4>
+    <h4 class="modal-title" id="modal-basic-title" *ngIf="!isAdd">Edit User</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="row">
+          <div class="col-12">
+              <div class="form-group mt-2">
+                  <label for="Email">Email:</label>
+                  <input
+                      formControlName="email"
+                      id="email"
+                      type="text"
+                      class="form-control">
+                      <div *ngIf="f['email'].touched && f['email'].invalid" class="alert alert-danger">
+                        <div *ngIf="f['email'].errors?.['required']">Email is required.</div>
+                        <div *ngIf="f['email'].errors?.['email']">Email must be a valid email address.</div>
+                    </div>
+              </div>
+
+              <div class="form-group mt-2">
+                  <label for="body">Username:</label>
+                  <input
+                      formControlName="username"
+                      id="first_name"
+                      type="text"
+                      class="form-control">
+                      <div *ngIf="f['username'].touched && f['username'].invalid" class="alert alert-danger">
+                        <div *ngIf="f['username'].errors?.['required']">Username is required.</div>
+                    </div>
+              </div>
+
+              <div class="form-group mt-2">
+                  <label for="body">Mobile No:</label>
+                  <input
+                      formControlName="mob"
+                      id=""
+                      type="text"
+                      class="form-control">
+                      <div *ngIf="f['mob'].touched && f['mob'].invalid" class="alert alert-danger">
+                        <div *ngIf="f['mob'].errors?.['required']">Mobile No is required.</div>
+                        <div *ngIf="f['mob'].errors?.['pattern']">Mobile No should be valid</div>
+                    </div>
+              </div>
+
+              <div class="form-group mt-2">
+                <label for="body">Address:</label>
+                <input
+                    formControlName="address"
+                    id=""
+                    type="text"
+                    class="form-control">
+                    <div *ngIf="f['address'].touched && f['address'].invalid" class="alert alert-danger">
+                      <div *ngIf="f['address'].errors?.['required']">Address is required.</div>
+                  </div>
+            </div>
+
+              <div class="form-group mt-2" *ngIf="isAdd">
+                  <label for="body">Upload Profile Pic:</label>
+                  <input
+                      formControlName="avatar"
+                      id=""
+                      type="file"
+                      class="form-control">
+
+              </div>
+          </div>
+      </div>
+
+
+
+      <button class="btn btn-success mt-3" type="submit" [disabled]="!form.valid">Submit</button>
+  </form>
+  </div>
+</ng-template>
